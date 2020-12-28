@@ -106,6 +106,7 @@ router.post('/createProfile',  async(req, res) => {
     try {
          
         // const useremail = await UserRegister.find({email:req.body.email}).countDocuments() > 0;
+        
         const userData= await UserRegister.find(
             {tokens:{ $elemMatch:{token: req.headers.token}}},{email: 1, name: 1})
 
