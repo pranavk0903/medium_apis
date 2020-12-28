@@ -117,6 +117,7 @@ router.post('/createProfile',  async(req, res) => {
                 email: userData[0].email,
                 bio: req.body.bio
             })
+            
             const createdProfile = await createProfile.save();
             res.status(201).send('User Profile created successfully');
         } else {
