@@ -35,6 +35,14 @@ const userSchema = new mongoose.Schema({
             type: String,
             required: true
         }
+    }],
+    followers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    following: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }]
 });
 
@@ -57,7 +65,22 @@ userSchema.pre('save', async function(next) {
         this.confirmpassword = await bcrypt.hash(this.password, 10);
     }
     next();
-})
+});
+
+// add follower functionality
+userSchema.methods.follow = function(id, follow) {
+    if(follow === 'following' && this.following.indexOf(id) === -1) {
+        this.following.push(id)
+    } 
+    else if(follow === 'follower' && this.followers.indexOf(id) === -1) {
+        this.followers.push(id)
+    }
+    return this.save();
+}
+
+userSchema.methods.unfollow = function(id, follow) {
+    this.followers.push(fs)        
+}
 
 
 const UserRegister = new mongoose.model('UserRegister', userSchema);
