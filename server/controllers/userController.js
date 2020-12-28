@@ -105,7 +105,7 @@ router.get('/userLogout', auth, async(req, res) => {
 router.post('/createProfile',  async(req, res) => {
     try {
          
-        const useremail = await UserRegister.find({email:req.body.email}).countDocuments() > 0;
+        // const useremail = await UserRegister.find({email:req.body.email}).countDocuments() > 0;
         const userData= await UserRegister.find(
             {tokens:{ $elemMatch:{token: req.headers.token}}},{email: 1, name: 1})
 
@@ -117,7 +117,7 @@ router.post('/createProfile',  async(req, res) => {
                 email: userData[0].email,
                 bio: req.body.bio
             })
-            
+
             const createdProfile = await createProfile.save();
             res.status(201).send('User Profile created successfully');
         } else {
